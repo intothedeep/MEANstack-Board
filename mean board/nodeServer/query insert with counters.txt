@@ -1,0 +1,68 @@
+//시퀀스 필드 만들기
+db.counters.insert(
+   {
+      _id: "seq",
+      next: {
+        type: Number,
+        default: 1
+      }
+   }
+)
+
+//시퀀스 1로 맞추기
+db.counters.findAndModify( { query: { _id: 'seq' }, update: { next: 1 } , new: true } );
+
+//몽구스 counter 모델 세팅
+
+var counterSchema = new Schema({
+  _id: String,
+   next: {
+     type: Number,
+     default: 1
+   }
+});
+
+//counter: 시쿼스가 들어가있는 필드의 이름 ex)seq
+counterSchema.statics.increment = function (counter, callback) {
+    return this.findByIdAndUpdate(
+      counter,
+      { $inc: { next: 1 } },
+      {new: true, upsert: true, select: {next: 1}},
+      callback
+    );
+};
+
+
+
+
+
+
+
+
+//몽고db호메이지 시퀀스 만들기
+
+db.counters.insert(
+   {
+      _id: "seq",
+      next: {
+        type: Number,
+        default: 1
+      }
+   }
+)
+
+function getNextSequence(name) {
+   var ret = db.counters.findAndModify( { query: { _id: 'seq' }, update: { $inc: { seq: 1 } }, new: true } );
+   return ret.seq;
+}
+
+//몽고쉘에서 직접 입력
+db.articles.insert(
+	{
+		seq : getNextSequence("seq"),
+		user : { id: "victor", name: "victor" },
+		content : "RESTful Api Test",
+		subject : "It is a test data",
+		time: new Date()
+		}
+);

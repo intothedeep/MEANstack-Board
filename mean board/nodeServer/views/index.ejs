@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="kr">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.js"></script>
+
+    <!-- include summernote css/js-->
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="stylesheet" href="/stylesheets/popover.css">
+    <title> MEAN stack 게시판 </title>
+  </head>
+
+  <body>
+
+  <header>
+    <h1>Full stack <%= title %></h1>
+  </header>
+
+  <section class="container-fluid" style="">
+
+    <article class="col-lg-6 col-md-12 col-sm-12">
+      <h6 class=""> 글목록 </h6>
+      <table class="table table-hover table-bordered">
+        <thead>
+          <tr class="info">
+            <th > # </th>
+            <th >| 제목</th>
+            <th >| 글쓴이</th>
+            <th >| 작성일</th>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+
+        </tbody>
+      </table>
+      <div class="btns">
+        <button id="showNote" class="btn btn-sm btn-warning" onclick="return false;" type="button">글쓰기</button>
+        <button id="showArticle" class="btn btn-sm btn-info" onclick="return false;" type="button">글보기</button>
+      </div>
+      <div class="pagination_wrapper">
+        <div class="pagination_div">
+          <ul class="pagination pagination-sm">
+
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- list table 바디 템플레이트 -->
+    <template id="list-template">
+      <tr>
+        <td>{{seq}}</td>
+        <td class="list_subject"><a class="list-subject" href="#" data-seq="{{seq}}">{{subject}}</a></td>
+        <td>
+          <a class="list-name" href="#" class="writerInfo" data-toggle="popover"> {{user.name}} </a>
+        </td>
+        <td class="list-time">{{time}}</td>
+      </tr>
+    </template>
+
+
+    <article class="note-div col-xl-6 col-lg-6 col-md-12 col-sm-12">
+      <h6 class=""> 글쓰기 </h6>
+      <form class="" name="writeFrom" id="writeForm" action="" method="post">
+        <input type="hidden" name="content" value="">
+        <div class="form-group">
+          <label for="subject">제목</label>
+          <input class="write-subject form-control" type="text" name="subject" value="" placeholder="제목을 입력해 주세요.">
+        </div>
+      </form>
+
+      <label for="summernote">내용</label>
+      <div class="" id="summernote"></div>
+
+      <div class="btns">
+        <button class="write-btn btn btn-sm btn-success" type="button" name="button">글작성</button>
+      </div>
+    </article>
+
+
+    <article class="article-div col-xl-6 col-lg-6 col-md-6 col-sm-12">
+      <h6 class=""> 글보기 </h6>
+      <h5 class="view-subject card-header"> 제목 </h5>
+      <div class="view-content card-body" style=""> 내용 </div>
+      <div class="card-footer text-muted"> 2 시간 전</div>
+      <div class="btns text-muted">
+        <button class="modify-btn btn btn-sm btn-danger" type="button" name="button">글수정</button>
+      </div>
+    </article>
+
+  </section>
+
+<script src="/javascripts/summernote.js" charset="utf-8"></script>
+<script src="/javascripts/index.js" charset="utf-8"></script>
+
+</html>

@@ -1,0 +1,38 @@
+<article class="col-lg-6 col-md-12 col-sm-12">
+  <h6 class=""> 글목록 </h6>
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr class="info">
+        <th > # </th>
+        <th >| 제목</th>
+        <th >| 글쓴이</th>
+        <th >| 작성일</th>
+      </tr>
+    </thead>
+    <tbody class="tbody">
+
+        <tr *ngFor="let article of articles">
+          <td>{{article.seq}}</td>
+          <td class="list_subject"><a #test class="list-subject" href="javascript: void(0);" (click)="getArticle(article.seq)">{{article.subject}}</a></td>
+          <td>
+            <a class="list-name" href="javascript: void(0);" class="writerInfo" data-toggle="popover"> {{article.user.name}} </a>
+          </td>
+          <td class="list-time">{{article.time}}</td>
+        </tr>
+
+    </tbody>
+  </table>
+  <div class="btns">
+    <button id="showNote" class="btn btn-sm btn-warning" onclick="return false;" type="button">글쓰기</button>
+    <button id="showArticle" class="btn btn-sm btn-info" onclick="return false;" type="button">글보기</button>
+  </div>
+
+  <div class="pagination_wrapper">
+    <div class="pagination_div">
+      <ul class="pagination pagination-sm">
+        
+      </ul>
+    </div>
+  </div>
+
+</article>

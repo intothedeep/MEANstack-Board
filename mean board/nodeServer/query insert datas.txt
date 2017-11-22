@@ -1,0 +1,18 @@
+db.articles.insertMany([
+	{user : { id: "victor", name: "victor" }, content : "RESTful Api Test", subject : "It is a test data"},
+	{user : { id: "victor", name: "victor" }, content : "RESTful Api Test", subject : "secondData"}
+]);
+
+var articleSchema = new Schema({
+	seq: Number,
+	user : {
+    id: String,
+    name: String
+  },
+  content : String,
+	subject : String,
+  time: {
+    type: Date,
+    default: Date.now
+  }
+});

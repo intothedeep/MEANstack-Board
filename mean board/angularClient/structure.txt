@@ -1,0 +1,21 @@
+angular board structure
+
+app.component.ts
+  - 게시판
+  - 타이틀
+
+board.component.ts
+  - 게시판 목록
+board.service.ts
+
+pagination.component.ts
+  - 페이징
+pagination.service.ts
+
+write.component.ts
+  - 글쓰기
+write.service.ts
+
+view.component.ts
+  - 글보기
+view.service.ts

@@ -1,0 +1,20 @@
+db.articles.aggregate([
+    { "$match": { "user.name": "intothedeep" } },
+    {
+        "$addFields": {
+            "articles": {
+                "$map": {
+                    "input": "$articles",
+                    "as": "article",
+                    "in": {
+                      "$dateToString": {
+                          "format": "%Y-%m-%d",
+                          "date": "$$article.time"
+                      }
+
+                    }
+                }
+            }
+        }
+    }
+])

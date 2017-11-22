@@ -1,0 +1,49 @@
+body {
+  font-family: Malgun Gothic;
+}
+
+header {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+section {
+  height: 100%;
+}
+
+h1 {
+  text-align: center;
+  border-bottom: 3px solid black;
+  padding-bottom: 10px;
+}
+
+h6 {
+  display: inline-block;
+  border-bottom: 2px gray solid;
+  font-weight: bold;
+  color: gray;
+}
+
+article {
+  float: left;
+}
+
+.btns {
+  text-align: right;
+  margin-top: 15px;
+}
+
+table {
+  font-size: 14px;
+}
+
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
