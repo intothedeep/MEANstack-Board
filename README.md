@@ -22,9 +22,11 @@ Server:
 DB:
 - mongoDB
 
-framwork:
+etc:
 - express
 - bootstrap4
+- mongoose
+- cors^
 
 Tech:
 -RESTful
