@@ -14,17 +14,17 @@ Please let me know if you have any question about this project or what you want 
 Thanks!
 
 Client:
--angular2
+- angular2
 
 Server:
--node
+- node
 
 DB:
--mongoDB
+- mongoDB
 
 framwork:
--express
--bootstrap4
+- express
+- bootstrap4
 
 Tech:
 -RESTful
