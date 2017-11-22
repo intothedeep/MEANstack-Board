@@ -2,8 +2,16 @@
 node, angular2, express, mongoDB, less applied board
 
 Hello!
-
 This is my first MEAN stack project, basic board
+
+how to run?
+1. clone this project
+2. run npm install on ../angularClient and ../nodeServer
+3. ng serve on ../angularClient and nodemon start -V on ../nodeServer
+4. clientside runs on port 4200 and Serverside runs on port 80
+
+Please let me know if you have any question about this project or what you want to advise to make my project better.
+Thanks!
 
 Client:
 -angular2
