@@ -30,4 +30,5 @@ Tech:
 -RESTful
 
 Now I am working on pagination.
-I will apply fileupload with Gulp to this project.
+I will bulid fileupload module and email module.
+Also, I will learn Docker, Gulp and Sass(or Less) to apply them to my project.
