@@ -9,10 +9,12 @@ import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
 import { WriteComponent } from './write/write.component';
 import { ViewComponent } from './view/view.component';
+import { MessageComponent } from './message/message.component';
 
 import { BoardService } from './board.service';
-import { MessageComponent } from './message/message.component';
 import { MessageService } from './message.service';
+import { PagerService } from './pager.service';
+
 //import { PagingDto } from './pagingDto';
 
 
@@ -32,7 +34,8 @@ import { MessageService } from './message.service';
   ],
   providers: [
     BoardService,
-    MessageService
+    MessageService,
+    PagerService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,34 +1,32 @@
-var express = require('express');
 var boardController = require('../controllers/boardController');
-
+var express = require('express');
 var router = express.Router();
-
 // GET
 router.get('/list/:size/:pageNo', boardController.list);
 
-// GET 글 갯수 구하기
+// GET # of articles in DB
 router.get('/totalArticle', boardController.totalArticle);
 
-// GET
+// GET an article with seq = :seq
 router.get('/:seq', boardController.show);
 
-// GET
+// GET an article with name = :name
 router.get('/name/:name', boardController.searchByName);
 
-// GET
+// GET an article with search key = :key and search word = :word
 router.get('/search/key/:key/word/:word', boardController.search);
 
-// PUT
-router.put('/seq', boardController.nextSeq);
+// GET next seq of an article which will be written
+router.get('/seq/next', boardController.nextSeq);
 
-// POST
+// POST save an article
 router.post('/', boardController.create);
 
-// PUT
-router.put('/:id', boardController.update);
+// PUT modify an article with seq = :seq
+router.put('/:seq', boardController.update);
 
-// DELETE
-router.delete('/:id', boardController.remove);
+// DELETE an article with seq = :seq
+router.delete('/:seq', boardController.remove);
 
 
 module.exports = router;

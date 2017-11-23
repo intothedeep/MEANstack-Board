@@ -12,15 +12,14 @@ declare var $:any;
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*'
+    'Content-Type' : 'application/json'
   })
 };
 
 @Injectable()
 export class BoardService {
 
-  private restUrl = 'http://localhost:80/api/board/';  // URL to web api
+  private restUrl = 'http://localhost:80/api/board';  // URL to web api
 
   constructor(
     private http: HttpClient,
@@ -28,7 +27,7 @@ export class BoardService {
 
   // get articles from server
   getArticleList ( pageNo:number, articles_per_page:number ): Observable<Article[]> {
-    const url = `${this.restUrl}list/${articles_per_page}/${pageNo}`;
+    const url = `${this.restUrl}/list/${articles_per_page}/${pageNo}`;
     return this.http.get<Article[]>(url)
       .pipe(
         tap(articles => this.log(`Get articleList from REST GET : ${url}`)),
@@ -37,7 +36,7 @@ export class BoardService {
   }
 
   getTotalArticle () : Observable<number> {
-    let url : string = this.restUrl + "totalArticle";
+    let url : string = this.restUrl + "/totalArticle";
     return this.http.get<number>(url)
       .pipe(
         tap(
@@ -47,7 +46,7 @@ export class BoardService {
   }
 
   getArticle ( seq:number ): Observable<Article> {
-    let url = this.restUrl + seq;
+    let url = this.restUrl + "/" + seq;
     return this.http.get<Article>(url)
       .pipe(
         tap(
@@ -66,59 +65,75 @@ export class BoardService {
     let viewSubject = $('.view_subject');
     let viewContent = $('.view_content');
 
+    viewSubject.html(article.subject);
+    viewContent.html(article.content);
+
+    this.whichToShow(2);
+  }
+
+  whichToShow ( which : number ) : void {
     let writeDiv, viewDiv;
     writeDiv = $('.note_div');
     viewDiv = $('.article_div');
-    //console.log(viewDiv);
-    writeDiv.css({'display':'none'});
-    viewDiv.css('display', 'block');
 
-    viewSubject.html(article.subject);
-    viewContent.html(article.content);
-  }
-
-  getPagination( totalArticle:number, pageNo:number, articles_per_page:number, navSize:number ) : void {
-    let startPage : number;
-    let endPage : number;
-
-    let totalPage : number = Math.trunc( (totalArticle - 1) / articles_per_page + 1);
-    let currentNavNum : number = Math.trunc( (pageNo - 1) / navSize );
-
-    startPage = navSize * currentNavNum + 1;
-    endPage = navSize * ( currentNavNum + 1 );
-
-    let next : number = ((navSize * (currentNavNum + 1)) + 1);
-    let previous : number = navSize * currentNavNum;
-
-    endPage = (endPage < totalPage) ? endPage:totalPage;
-
-    console.log("======================================= ");
-    console.log("boardService getPagination");
-    console.log("navSize = " + navSize);
-    console.log("startPage = " + startPage);
-    console.log("endPage = " + endPage);
-    console.log("currentNavNum = " + currentNavNum);
-    console.log("previous = " + previous);
-    console.log("next = " + next);
-    console.log("endPage 삼항 = " + endPage);
-    console.log("======================================= ");
-
-    var template = "";
-    if (currentNavNum == 0)
-      template = '<li class="page-item"><a class="page-link" href="#">이전</a></li>';
-    else
-      template = '<li class="page-item"><a class="page-link" href="javascript:reloadList(' + previous + ', articles_per_page);">이전</a></li>';
-    for(var i=startPage; i<=endPage; i++) {
-      template += '<li class="page-item"><a class="page-link" href="javascript:reloadList(' + i + ', articles_per_page);">' + i + '</a></li>';
+    // 1: writeDiv
+    // 2: viewDiv
+    if ( 1 == which ) {
+      writeDiv.css({'display':'block'});
+      viewDiv.css('display', 'none');
+    } else {
+      writeDiv.css({'display':'none'});
+      viewDiv.css('display', 'block');
     }
-    if (endPage != totalPage)
-      template += '<li class="page-item"><a class="page-link" href="javascript:reloadList(' + next + ', articles_per_page);">다음</a></li>';
 
-    var pagination = $('.pagination');
-    pagination.empty();
-    pagination.html(template);    
+    this.log("whichToShow " + (which == 1 ? "writeDiv":"viewDiv") );
 
   }
+
+  nextSeq () : Observable<number> {
+    let url = `${this.restUrl}/seq/next`;
+    let next:number;
+
+    return this.http.get<number>(url)
+      .pipe(
+        tap(
+          next => this.log(`next seq = ${next}`)
+        ),
+        catchError(
+          this.handleError<any>('nextSeq')
+        )
+      );
+  }
+
+  writeArticle ( article:Article ) : Observable<Article>{
+    let url = `${this.restUrl}`;
+    let content : string = $('#summernote').summernote('code');
+    var date = new Date();
+    var time = date.getFullYear() + "/" + date.getMonth()  + "/" + date.getDate();// + " " + date.getHours();
+    article.content = content;
+    article.time = time;
+    console.log(article);
+
+    var obj = {
+      seq : article.seq,
+      subject : article.subject,
+      content : article.content,
+      id: article.user.id,
+      name: article.user.name,
+      time: article.time
+    }
+
+    return this.http.post<Article>(url, obj, httpOptions)
+      .pipe(
+        tap(
+          (article: Article) => this.log(`Add Article with REST POST : ${url}`)
+        ),
+        catchError(
+          this.handleError<Article>(`writeArticle REST POST url: ${url}`)
+        )
+      );
+  }
+
 
 
 

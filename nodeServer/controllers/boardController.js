@@ -74,6 +74,8 @@ module.exports = {
 
     // boardController.searchByName()
     searchByName: function (req, res) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+
       var word = req.params.name;
       articleModel.find({ 'user.name' : word }, function (err, article) {
         if (err) {
@@ -98,6 +100,7 @@ module.exports = {
       var data = { "key":key, "word":word };
       //var searchParam = key;
       console.log(key);
+      res.setHeader('Access-Control-Allow-Origin', '*');
 
       articleModel.find({ 'user.name' : word }).exec(function (err, article) {
         if (err) {
@@ -118,13 +121,14 @@ module.exports = {
 
     // PUT boardController.nextSeq
     nextSeq: function (req, res) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
 
       var nextSeq = counterModel.increment('seq', function (err, result) {
           if (err) {
               console.error('Counter save error: ' + err);
               return;
           }
-          return res.json(result);
+          return res.json(result.next);
       });
 
     },
@@ -133,6 +137,7 @@ module.exports = {
      * articleController.create()
      */
     create: function (req, res) {
+      res.setHeader('Access-Control-Allow-Origin', "*");
 
       var article = new articleModel({
         seq: req.body.seq,

@@ -23,14 +23,14 @@
     </tbody>
   </table>
   <div class="btns">
-    <button id="showNote" class="btn btn-sm btn-warning" onclick="return false;" type="button">글쓰기</button>
-    <button id="showArticle" class="btn btn-sm btn-info" onclick="return false;" type="button">글보기</button>
+    <button (click)="whichToShow(1)" class="btn btn-sm btn-warning" onclick="return false;" type="button">글쓰기</button>
+    <button (click)="whichToShow(2)" class="btn btn-sm btn-info" onclick="return false;" type="button">글보기</button>
   </div>
 
   <div class="pagination_wrapper">
     <div class="pagination_div">
       <ul class="pagination pagination-sm">
-        
+
       </ul>
     </div>
   </div>

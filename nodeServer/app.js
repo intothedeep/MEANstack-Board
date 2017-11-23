@@ -11,8 +11,22 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var board = require('./routes/board');
+var cors = require('cors');
+
 
 var app = express();
+
+var whitelist = ['http://localhost:4200', 'http://localhost'];
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  }
+};
+app.options('*', cors(corsOptions)) // include before other routes
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -48,21 +62,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
   // Pass to next layer of middleware
-  next();
+  // next();
 });
 
 // CONNECT TO MONGODB SERVER
@@ -78,7 +79,5 @@ db.once('open', function(){
 // Node.js의 native Promise 사용
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/board', { useMongoClient: true });
-
-
 
 module.exports = app;

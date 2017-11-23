@@ -179,12 +179,12 @@ $(document).ready(function() {
   $('.write-btn').click(function(event) {
 
     $.ajax({
-      url: '/api/board/seq',
-      type: 'PUT',
+      url: '/api/board/seq/next',
+      type: 'GET',
       dataType: 'json'
     })
     .done(function(result) {
-      var next = result.next;
+      var next = result;
       console.log("seq = = = = =  " + next);
       write(next);
     })
