@@ -48,7 +48,7 @@
   <div class="card-footer text-muted"> 2 시간 전</div>
   <div class="btns text-muted">
     <button (click)="viewModify(selectedArticle)" class="btn btn-sm btn-warning" type="button" name="button">글수정</button>
-    <button (click)="delete(selectedArticle.seq)" class="btn btn-sm btn-danger" type="button" name="button">글삭제</button>
+    <button (click)="delete(selectedArticle)" class="btn btn-sm btn-danger" type="button" name="button">글삭제</button>
   </div>
 </article>
 
@@ -72,8 +72,11 @@
   <h6 class=""> 글수정 </h6>
   <div class="form-group">
     <label for="subject">제목</label>
-    <input class=" form-control" type="text" value="{{modifyArticle.subject}}" placeholder="수정">
+    <input #testModify [(ngModel)]="modifyArticle.subject" class=" form-control" type="text" value="{{modifyArticle.subject}}" placeholder="수정">
   </div>
+
+  <!-- <div>{{testModify.value}}</div>
+  <div>{{modifyArticle.subject}}</div> -->
 
   <label for="modifyNote">내용</label>
   <div id="modifyNote"></div>

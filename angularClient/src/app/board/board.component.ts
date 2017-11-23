@@ -50,8 +50,9 @@ export class BoardComponent implements OnInit {
   getArticle() : void {
     const seq = +this.route.snapshot.paramMap.get('seq');
     this.boardService.getArticle(seq).subscribe(
-    article => this.article = article,
-    article => console.log(article));
+      article => this.article = article,
+      article => console.log(article)
+    );
   }
 
   getArticleList( pageNo:number, articles_per_page:number ): void {
@@ -123,7 +124,11 @@ export class BoardComponent implements OnInit {
 
   delete( article:Article ) : void {
     // this.articles = this.articles.filter(a => a !== article);
-    this.boardService.delete(article).subscribe();
+    this.boardService.deleteArticle(article).subscribe(
+      this.getTotalArticle(),
+      this.getArticleList(this.pageNo, this.articles_per_page),
+      this.selectedArticle = null;
+    );//location.reload());
   }
 
 }

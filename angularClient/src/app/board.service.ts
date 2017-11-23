@@ -136,6 +136,17 @@ export class BoardService {
 
 
 
+  deleteArticle( article:Article ) : Observable<Article> {
+    const seq = typeof article === 'number' ? article : article.seq;
+
+    const url = `${this.restUrl}/${seq}`;
+
+    return this.http.delete<Article>(url, httpOptions).pipe(
+      tap(_ => this.log(`deleted hero seq=${article.seq}`)),
+      catchError(this.handleError<Article>('DeletedArticle'))
+    );
+  }
+
 
 
 

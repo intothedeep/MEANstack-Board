@@ -2,13 +2,13 @@ var articleModel = require('../models/article.js');
 var counterModel = require('../models/counter.js');
 
 /**
- * articleController.js
+ * boardController.js
  *
  * @description :: Server-side logic for managing articles.
  */
 module.exports = {
 
-    // boardController.count()
+    //GET boardController.count()
     totalArticle: (req, res) => {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -23,7 +23,7 @@ module.exports = {
         });
     },
     /**
-     * articleController.list()
+     * boardController.list()
      */
     list: (req, res) => {
       var pageNo = req.params.pageNo - 1;
@@ -47,7 +47,7 @@ module.exports = {
     },
 
     /**
-     * articleController.show()
+     * boardController.show()
      */
     show: function (req, res) {
         var seq = req.params.seq;
@@ -72,7 +72,7 @@ module.exports = {
         });
     },
 
-    // boardController.searchByName()
+    //GET boardController.searchByName()
     searchByName: function (req, res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -93,7 +93,7 @@ module.exports = {
       })
     },
 
-    // boardController.search()
+    //GET boardController.search()
     search: function (req, res) {
       var key = req.params.key;
       var word = req.params.word;
@@ -119,7 +119,7 @@ module.exports = {
       // return res.send(200);
     },
 
-    // PUT boardController.nextSeq
+    // GET boardController.nextSeq()
     nextSeq: function (req, res) {
       res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -134,7 +134,7 @@ module.exports = {
     },
 
     /**
-     * articleController.create()
+     * boardController.create()
      */
     create: function (req, res) {
       res.setHeader('Access-Control-Allow-Origin', "*");
@@ -163,11 +163,13 @@ module.exports = {
     },
 
     /**
-     * articleController.update()
+     * boardController.update()
      */
     update: function (req, res) {
-        var id = req.params.id;
-        articleModel.findOne({_id: id}, function (err, article) {
+      res.setHeader('Access-Control-Allow-Origin', "*");
+
+        var seq = req.params.seq;
+        articleModel.findOne({_seq: seq}, function (err, article) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting article',
@@ -180,8 +182,8 @@ module.exports = {
                 });
             }
 
-            article.title = req.body.title ? req.body.title : article.title;
-            article.author = req.body.author ? req.body.author : article.author;
+            article.subject = req.body.subject ? req.body.subject : article.subject;
+            article.content = req.body.content ? req.body.content : article.content;
 
             article.save(function (err, article) {
                 if (err) {
@@ -197,11 +199,13 @@ module.exports = {
     },
 
     /**
-     * articleController.remove()
+     * boardController.remove()
      */
     remove: function (req, res) {
-        var id = req.params.id;
-        articleModel.findByIdAndRemove(id, function (err, article) {
+      res.setHeader('Access-Control-Allow-Origin', "*");
+
+        var seq = req.params.seq;
+        articleModel.remove( { seq:seq }, function (err, article) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when deleting the article.',
