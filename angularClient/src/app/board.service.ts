@@ -65,10 +65,10 @@ export class BoardService {
     let viewSubject = $('.view_subject');
     let viewContent = $('.view_content');
 
+    this.whichToShow(2);
     viewSubject.html(article.subject);
     viewContent.html(article.content);
 
-    this.whichToShow(2);
   }
 
   whichToShow ( which : number ) : void {

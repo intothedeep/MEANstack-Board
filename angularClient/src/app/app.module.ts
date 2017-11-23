@@ -7,8 +7,6 @@ import { AppRoutingModule }     from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { BoardComponent } from './board/board.component';
-import { WriteComponent } from './write/write.component';
-import { ViewComponent } from './view/view.component';
 import { MessageComponent } from './message/message.component';
 
 import { BoardService } from './board.service';
@@ -22,8 +20,6 @@ import { PagerService } from './pager.service';
   declarations: [
     AppComponent,
     BoardComponent,
-    WriteComponent,
-    ViewComponent,
     MessageComponent
   ],
   imports: [

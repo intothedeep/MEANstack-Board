@@ -13,7 +13,11 @@
 
         <tr *ngFor="let article of articles">
           <td>{{article.seq}}</td>
-          <td class="list_subject"><a #test class="list-subject" href="javascript: void(0);" (click)="getArticle(article.seq)">{{article.subject}}</a></td>
+          <td class="list_subject">
+            <a class="list-subject" [class.selected]="article === selectedArticle" (click)="onSelect(article)" href="javascript: void(0);">
+              {{article.subject}}
+            </a>
+          </td>
           <td>
             <a class="list-name" href="javascript: void(0);" class="writerInfo" data-toggle="popover"> {{article.user.name}} </a>
           </td>
@@ -35,4 +39,46 @@
     </div>
   </div>
 
+</article>
+
+<article *ngIf='selectedArticle' class="container article_div col-xl-6 col-lg-6 col-md-12 col-sm-12">
+  <h6 class=""> 글보기 </h6>
+  <h5 #view_subject class="view_subject card-header"> 제목 </h5>
+  <div #view_content class="view_content card-body" style=""> 내용 </div>
+  <div class="card-footer text-muted"> 2 시간 전</div>
+  <div class="btns text-muted">
+    <button (click)="viewModify(selectedArticle)" class="btn btn-sm btn-warning" type="button" name="button">글수정</button>
+    <button (click)="delete(selectedArticle.seq)" class="btn btn-sm btn-danger" type="button" name="button">글삭제</button>
+  </div>
+</article>
+
+
+<article class="container note_div col-xl-6 col-lg-6 col-md-12 col-sm-12">
+  <h6 class=""> 글쓰기 </h6>
+  <div class="form-group">
+    <label for="subject">제목</label>
+    <input #subject class="write-subject form-control" type="text" name="subject" value="" placeholder="제목을 입력해 주세요.">
+  </div>
+
+  <label for="summernote">내용</label>
+  <div class="" id="summernote"></div>
+
+  <div class="btns">
+    <button (click)="write(subject.value)" class="btn btn-sm btn-success" type="button" name="button">글작성</button>
+  </div>
+</article>
+
+<article *ngIf='modifyArticle' class="container modify_div col-xl-6 col-lg-6 col-md-12 col-sm-12">
+  <h6 class=""> 글수정 </h6>
+  <div class="form-group">
+    <label for="subject">제목</label>
+    <input class=" form-control" type="text" value="{{modifyArticle.subject}}" placeholder="수정">
+  </div>
+
+  <label for="modifyNote">내용</label>
+  <div id="modifyNote"></div>
+
+  <div class="btns">
+    <button (click)="modify(modifyArticle)" class="btn btn-sm btn-warning" type="button" name="button">글수정</button>
+  </div>
 </article>
