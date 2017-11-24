@@ -20,9 +20,9 @@ import { Article } from '../article';
 export class BoardComponent implements OnInit {
 
   // clicked article
-  selectedArticle: Article;
+  selectedArticle: Article = new Article();
   // article being modified
-  modifyArticle: Article;
+  modifyArticle: Article = new Article();
   // paged articles
   articles: Article[] = [];
   // pager object
@@ -125,6 +125,7 @@ export class BoardComponent implements OnInit {
             )
             .subscribe(
               (article) => {
+                this.onSelect(article),
                 console.log("write.component article.seq = " + article.seq),
                 this.articles.pop(),
                 this.articles.splice(0, 0, article),
@@ -148,9 +149,8 @@ export class BoardComponent implements OnInit {
   modify ( article:Article ) : void {
     this.boardService.modifyArticle(article).subscribe(
       article => this.selectedArticle = article,
-      this.modifyArticle = null,
+      this.modifyArticle = new Article(),
       // location.reload();
-
     );
   }
 
@@ -159,7 +159,7 @@ export class BoardComponent implements OnInit {
     // this.articles = this.articles.filter(a => a !== article);
     this.boardService.deleteArticle(article).subscribe(
       () => {
-        this.selectedArticle = null;
+        this.selectedArticle = new Article();
         this.getTotalArticle();
         this.getArticleList(this.pageNo, this.articles_per_page);
         location.reload();

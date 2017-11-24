@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { PagingDto } from './pagingDto';
+import { MessageService } from './message.service';
 import * as _ from 'underscore';
 
 declare var $:any;
@@ -9,7 +10,9 @@ declare var $:any;
 @Injectable()
 export class PagerService {
 
-  constructor() { }
+  constructor(
+    private messageService: MessageService,
+  ) { }
 
   //  pager first try
   // getPager( totalArticle:number, pageNo:number = 1, articles_per_page:number = 10, navSize:number = 5 ) : void {
@@ -61,6 +64,8 @@ export class PagerService {
 // pager 2nd try
   // getPager(totalItems: number, currentPage: number = 1, pageSize: number = 10) {
   getPager( totalArticle:number, pageNo:number = 1, articles_per_page:number = 10, navSize:number = 10 ) {
+      this.log
+      this.log('Move to page number => ' + pageNo);
       // calculate total pages
       let totalPages = Math.ceil(totalArticle / articles_per_page);
 
@@ -109,6 +114,10 @@ export class PagerService {
           endIndex: endIndex,
           pages: pages
       };
+  }
+  /** Log a HeroService message with the MessageService */
+  private log(message: string) {
+    this.messageService.add('PagerService => ' + message);
   }
 
 }

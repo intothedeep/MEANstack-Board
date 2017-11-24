@@ -68,6 +68,7 @@ export class BoardService {
     this.whichToShow(2);
     viewSubject.html(article.subject);
     viewContent.html(article.content);
+    this.log('view an article with seq =  ' + article.seq);
 
   }
 
@@ -76,17 +77,30 @@ export class BoardService {
     writeDiv = $('.note_div');
     viewDiv = $('.article_div');
 
+    var modifyDiv = $('.modify_div');
+
     // 1: writeDiv
     // 2: viewDiv
+    // 3: modifyDiv
     if ( 1 == which ) {
       writeDiv.css({'display':'block'});
       viewDiv.css('display', 'none');
-    } else {
+      modifyDiv.css('display', 'none');
+    } else if ( 2 == which ) {
       writeDiv.css({'display':'none'});
       viewDiv.css('display', 'block');
+      modifyDiv.css('display', 'none');
+    } else if ( 3 == which ) {
+      writeDiv.css({'display':'none'});
+      viewDiv.css('display', 'none');
+      modifyDiv.css('display', 'block');
+    } else {
+      writeDiv.css({'display':'none'});
+      modifyDiv.css('display', 'none');
+      viewDiv.css('display', 'none');
     }
 
-    this.log("whichToShow " + (which == 1 ? "writeDiv":"viewDiv") );
+    this.log("whichToShow 1.write 2.view 3.modify => " + which);
 
   }
 
@@ -122,7 +136,7 @@ export class BoardService {
       name: article.user.name,
       time: article.time
     }
-
+    this.whichToShow(2);
     return this.http.post<Article>(url, obj, httpOptions)
       .pipe(
         tap(
@@ -142,7 +156,7 @@ export class BoardService {
     const url = `${this.restUrl}/${seq}`;
 
     return this.http.delete<Article>(url, httpOptions).pipe(
-      tap(article => this.log(`deleted articled seq=${seq}`)),
+      tap(article => this.log(`deleted article with REST DELETE : url=${url}`)),
       catchError(this.handleError<Article>('DeletedArticle'))
     );
   }
@@ -150,7 +164,7 @@ export class BoardService {
 
   showModifySummernote ( article:Article ) : Observable<any> {
     var modifyNote = $('#modifyNote');
-
+    this.whichToShow(3);
     modifyNote.summernote('code', article.content);
     return modifyNote;
   }
@@ -161,11 +175,11 @@ export class BoardService {
     const url = `${this.restUrl}/${seq}`;
     let content = $('#modifyNote').summernote('code');
     article.content = content;
-
+    this.whichToShow(0);
     return this.http.put<Article>(url, article, httpOptions)
       .pipe(
         tap(
-          article => this.log(`updated article seq=${seq}`)
+          article => this.log(`updated article with REST PUT : url=${url}`)
         ),
         catchError(
             this.handleError<Article>('updated Article')
