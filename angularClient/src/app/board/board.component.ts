@@ -18,9 +18,17 @@ import { Article } from '../article';
   styleUrls: ['./board.component.css']
 })
 export class BoardComponent implements OnInit {
-  articles: Article[] = [];
+
+  // clicked article
   selectedArticle: Article;
+  // article being modified
   modifyArticle: Article;
+  // paged articles
+  articles: Article[] = [];
+  // pager object
+  pager: any = {};
+  // paged articles
+  // pagedArticles: any[];
 
   private pageNo : number = 1;
   private articles_per_page : number = 10;
@@ -39,6 +47,8 @@ export class BoardComponent implements OnInit {
     this.getArticleList(this.pageNo, this.articles_per_page);
   }
 
+
+
   //  DB 안 거치고 리스트 뿌릴때 만든 속성값을 가지고 아티클 보여주기
   onSelect( article:Article ): void {
     // console.log(article);
@@ -50,11 +60,12 @@ export class BoardComponent implements OnInit {
   getArticle() : void {
     const seq = +this.route.snapshot.paramMap.get('seq');
     this.boardService.getArticle(seq).subscribe(
-      article => this.article = article,
+      article => this.selectedArticle = article,
       article => console.log(article)
     );
   }
 
+  // get articles for pageNo
   getArticleList( pageNo:number, articles_per_page:number ): void {
     this.boardService.getArticleList(pageNo, articles_per_page)
       .subscribe(
@@ -62,9 +73,20 @@ export class BoardComponent implements OnInit {
           this.articles = articles;
           //console.log(this.totalArticle);
           //console.log(this.getTotalArticle());
-          this.pagerService.getPager(this.totalArticle, pageNo, articles_per_page, this.navSize);
         },
       );
+  }
+
+  // paging
+  setPage( pageNo:number ) {
+    if (pageNo < 1 || pageNo > this.pager.totalPages) {
+      return;
+    }
+    // get pager object from service
+    this.pager = this.pagerService.getPager(this.totalArticle, pageNo, this.articles_per_page, this.navSize);
+    // get current page of items
+    // this.articles = this.allItems.slice(this.pager.startIndex, this.pager.endIndex + 1);
+    this.getArticleList(pageNo, this.pager.articles_per_page);
   }
 
   getTotalArticle() : void {
@@ -72,11 +94,15 @@ export class BoardComponent implements OnInit {
       .subscribe(
         totalArticleCount => {
           this.totalArticle = totalArticleCount;
+          this.setPage(1);
         }
       );
   }
 
   whichToShow( which:number ) : void {
+    if(which ==1)
+      this.modifyArticle = null;
+
     this.boardService.whichToShow(which);
   }
 
@@ -114,21 +140,31 @@ export class BoardComponent implements OnInit {
 
   viewModify( article:Article ) : void {
     this.modifyArticle = article;
+    this.boardService.showModifySummernote(article);
     // let modifyNote = document.getElementById('modifyNote').summernote();
     // console.log(modifyNote);
   }
 
   modify ( article:Article ) : void {
-    // this.boardService.modify(article);
+    this.boardService.modifyArticle(article).subscribe(
+      article => this.selectedArticle = article,
+      this.modifyArticle = null,
+      // location.reload();
+
+    );
   }
 
   delete( article:Article ) : void {
+    console.log(article);
     // this.articles = this.articles.filter(a => a !== article);
     this.boardService.deleteArticle(article).subscribe(
-      this.getTotalArticle(),
-      this.getArticleList(this.pageNo, this.articles_per_page),
-      this.selectedArticle = null;
-    );//location.reload());
+      () => {
+        this.selectedArticle = null;
+        this.getTotalArticle();
+        this.getArticleList(this.pageNo, this.articles_per_page);
+        location.reload();
+      }
+    );
   }
 
 }

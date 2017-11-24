@@ -136,24 +136,42 @@ export class BoardService {
 
 
 
-  deleteArticle( article:Article ) : Observable<Article> {
+  deleteArticle( article:Article | number ) : Observable<Article> {
     const seq = typeof article === 'number' ? article : article.seq;
 
     const url = `${this.restUrl}/${seq}`;
 
     return this.http.delete<Article>(url, httpOptions).pipe(
-      tap(_ => this.log(`deleted hero seq=${article.seq}`)),
+      tap(article => this.log(`deleted articled seq=${seq}`)),
       catchError(this.handleError<Article>('DeletedArticle'))
     );
   }
 
 
+  showModifySummernote ( article:Article ) : Observable<any> {
+    var modifyNote = $('#modifyNote');
 
+    modifyNote.summernote('code', article.content);
+    return modifyNote;
+  }
 
+  modifyArticle ( article:Article ) : Observable<Article> {
+    // const seq = typeof article === 'number' ? article : article.seq;
+    const seq = article.seq;
+    const url = `${this.restUrl}/${seq}`;
+    let content = $('#modifyNote').summernote('code');
+    article.content = content;
 
-
-
-
+    return this.http.put<Article>(url, article, httpOptions)
+      .pipe(
+        tap(
+          article => this.log(`updated article seq=${seq}`)
+        ),
+        catchError(
+            this.handleError<Article>('updated Article')
+        )
+      );
+  }
 
 
   /**

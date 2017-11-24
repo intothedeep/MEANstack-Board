@@ -12,6 +12,7 @@ import { MessageComponent } from './message/message.component';
 import { BoardService } from './board.service';
 import { MessageService } from './message.service';
 import { PagerService } from './pager.service';
+import { PagerComponent } from './pager/pager.component';
 
 //import { PagingDto } from './pagingDto';
 
@@ -20,7 +21,8 @@ import { PagerService } from './pager.service';
   declarations: [
     AppComponent,
     BoardComponent,
-    MessageComponent
+    MessageComponent,
+    PagerComponent
   ],
   imports: [
     BrowserModule,

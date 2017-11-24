@@ -169,7 +169,7 @@ module.exports = {
       res.setHeader('Access-Control-Allow-Origin', "*");
 
         var seq = req.params.seq;
-        articleModel.findOne({_seq: seq}, function (err, article) {
+        articleModel.findOne( { seq:seq }, function (err, article) {
             if (err) {
                 return res.status(500).json({
                     message: 'Error when getting article',
