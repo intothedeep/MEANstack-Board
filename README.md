@@ -32,6 +32,10 @@ etc:
 Tech:
 -RESTful
 
-Now I am working on pagination.
 I will bulid fileupload module and email module.
 Also, I will learn Docker, Gulp and Sass(or Less) to apply them to my project.
+
+version 0.1: basic board.
+
+all rights reserved for victor Lim.
+victor.taek.lim@gmail.com
