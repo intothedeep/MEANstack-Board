@@ -27,13 +27,10 @@ etc:
 - express
 - bootstrap4
 - mongoose
-- cors^
+- cors
 
 Tech:
 -RESTful
-
-I will bulid fileupload module and email module.
-Also, I will learn Docker, Gulp and Sass(or Less) to apply them to my project.
 
 version 0.1: basic board.
 
