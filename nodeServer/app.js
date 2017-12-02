@@ -11,22 +11,8 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var board = require('./routes/board');
-var cors = require('cors');
-
 
 var app = express();
-
-var whitelist = ['http://localhost:4200', 'http://localhost'];
-var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
-};
-app.options('*', cors(corsOptions)) // include before other routes
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

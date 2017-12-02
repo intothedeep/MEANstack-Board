@@ -148,9 +148,11 @@ export class BoardComponent implements OnInit {
 
   modify ( article:Article ) : void {
     this.boardService.modifyArticle(article).subscribe(
-      article => this.selectedArticle = article,
-      this.modifyArticle = new Article(),
-      // location.reload();
+      (article) => {
+        this.selectedArticle = article;
+        this.modifyArticle = new Article();
+        // location.reload();
+      }
     );
   }
 
