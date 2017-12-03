@@ -10,7 +10,6 @@ module.exports = {
 
     //GET boardController.count()
     totalArticle: (req, res) => {
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       articleModel.count().exec(function (err, count) {
             if (err) {
@@ -33,7 +32,6 @@ module.exports = {
       pageNo = parseInt(pageNo);
       pageNo = pageNo * size;
 
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       articleModel.find().sort({ seq : -1 }).skip(pageNo).limit(size).exec(function (err, articles) {
           if (err) {
@@ -51,7 +49,6 @@ module.exports = {
      */
     show: function (req, res) {
         var seq = req.params.seq;
-        res.setHeader('Access-Control-Allow-Origin', '*');
 
         articleModel.findOne({ seq:seq }, function (err, article) {
             if (err) {
@@ -74,7 +71,6 @@ module.exports = {
 
     //GET boardController.searchByName()
     searchByName: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       var word = req.params.name;
       articleModel.find({ 'user.name' : word }, function (err, article) {
@@ -100,7 +96,6 @@ module.exports = {
       var data = { "key":key, "word":word };
       //var searchParam = key;
       console.log(key);
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       articleModel.find({ 'user.name' : word }).exec(function (err, article) {
         if (err) {
@@ -121,7 +116,6 @@ module.exports = {
 
     // GET boardController.nextSeq()
     nextSeq: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', '*');
 
       var nextSeq = counterModel.increment('seq', function (err, result) {
           if (err) {
@@ -137,7 +131,6 @@ module.exports = {
      * boardController.create()
      */
     create: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', "*");
 
       var article = new articleModel({
         seq: req.body.seq,
@@ -166,7 +159,6 @@ module.exports = {
      * boardController.update()
      */
     update: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', "*");
 
         var seq = req.params.seq;
         articleModel.findOne( { seq:seq }, function (err, article) {
@@ -202,7 +194,6 @@ module.exports = {
      * boardController.remove()
      */
     remove: function (req, res) {
-      res.setHeader('Access-Control-Allow-Origin', "*");
 
         var seq = req.params.seq;
         articleModel.remove( { seq:seq }, function (err, article) {
